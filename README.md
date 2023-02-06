@@ -32,3 +32,6 @@ This repo contains a work in progress Ecommerce responsive made with Next.js, Re
 - [ ] Add Google login
 - [ ] Add Proptypes on components
 - [ ] Use CSS variables instead of static colors
+
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/lucaspulliese/next-ecommerce
+)
