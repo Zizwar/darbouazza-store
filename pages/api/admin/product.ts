@@ -4,12 +4,12 @@ import multer from 'multer';
 const upload = multer({
   storage: multer.diskStorage({
     destination: './public/uploads',
-    filename: (req, file, cb) => cb(null, file.originalname),
+    filename: (_req: any, file: { originalname: any; }, cb: (arg0: null, arg1: any) => any) => cb(null, file.originalname),
   }),
 });
 
 const apiRoute = nextConnect({
-  onError(error, req, res) {
+  onError(error, _req, res:any) {
     res.status(501).json({ error: `Sorry something Happened! ${error.message}` });
   },
   onNoMatch(req, res) {
@@ -19,7 +19,7 @@ const apiRoute = nextConnect({
 
 apiRoute.use(upload.array('theFiles'));
 
-apiRoute.post((req, res) => {
+apiRoute.post((_req, res) => {
   res.status(200).json({ data: 'success' });
 });
 

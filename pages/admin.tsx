@@ -4,10 +4,10 @@ import { UiFileInputButton }from '../components/files-upload';
 import axios from "axios";
 const CheckoutPage = () => {
 
-  const onChange = async (formData) => {
-    const config = {
+  const onChange = async (formData: any) => {
+    const config:any = {
       headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (event) => {
+      onUploadProgress: (event: { loaded: number; total: number; }) => {
         console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
       },
     };
