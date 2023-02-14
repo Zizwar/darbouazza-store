@@ -1,12 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
 // fake data
-import useBlogger from '../../wino/';
+import useBlogger from "../../wino/";
 
 export default (_req: NextApiRequest, res: NextApiResponse) => {
-    useBlogger(res)
   // fake loading time
-  setTimeout(() => {
-   // res.status(200).json({ok:"ok"});
-  }, 800);
-}
+  const cb = (data: any) => {
+    res.json(data);
+  };
+  useBlogger(cb);
+};
