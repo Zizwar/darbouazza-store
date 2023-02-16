@@ -10,7 +10,7 @@ const ReviewsList = ({ reviews }: ReviewsListType) => {
 
   return (
     <section className="reviews-list">
-      {reviews.map((review, index) => (
+      {reviews?.map((review, index) => (
         <div key={index} className="review-item">
           <div className="review__avatar">
             <img src={ review.avatar } alt="avatar" />

@@ -16,7 +16,7 @@ const Punctuation = ({ votes, punctuation, countOpinions }: PunctuationType) => 
       
       <div className="product-punctuation__rates">
         <ul className="punctuations-lists">
-          {votes.map((vote) => (
+          {votes?.map((vote) => (
             <li key={vote.count} className="punctuation-item">
               <Rater total={1} interactive={false} rating={1} />
               <span>{vote.value}</span>

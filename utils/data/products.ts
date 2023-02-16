@@ -1,7 +1,7 @@
 export const products = [
   {
     id: '1',
-    name: 'T-Shirt Summer Vibes',
+    name: 'wimmer Vibes',
     price: 119.99,
     discount: 30,
     quantityAvailable: 2,
@@ -12,7 +12,7 @@ export const products = [
     images: [
       '/images/products/product-1.jpg',
     ],
-    punctuation: {
+    _punctuation: {
       countOpinions: 81,
       punctuation: 4.5,
       votes: [
@@ -38,7 +38,7 @@ export const products = [
         },
       ]
     },
-    reviews: [
+    _reviews: [
       {
         name: 'John Doe',
         avatar: '/images/featured-1.jpg',
