@@ -24,7 +24,7 @@ export type ProductType = {
   price: string;
   count: number;
   color: string;
-  videos:string[];
+  videos?:string;
   size: string;
   images: string[];
   discount?: string;
@@ -38,7 +38,7 @@ export type ProductTypeList = {
   name: string;
   price: string;
   color: string;
-  videos:string[];
+  videos?:string;
   images: string[];
   discount?: string;
   currentPrice?: number;

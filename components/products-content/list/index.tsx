@@ -25,6 +25,7 @@ const ProductsContent = () => {
               currentPrice={item.currentPrice}
               key={item.id}
               images={item.images} 
+              videos={item.videos}
             />
           ))}
         </section>

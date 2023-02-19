@@ -20,15 +20,11 @@ const Gallery = ({ images, videos }: GalleryProductType) => {
       <div className="product-gallery__image">
         {videos ? (
           <iframe
-            allowFullScreen="allowfullscreen"
-            webkitallowfullscreen="webkitallowfullscreen"
-            mozallowfullscreen="mozallowfullscreen"
             width="100%"
             height="100%"
             src={videos}
-            class="b-uploaded"
-            frameborder="0"
-          ></iframe>
+            className="b-uploaded"
+          />
         ) : (
           <img src={fetchImage} alt="" />
         )}
