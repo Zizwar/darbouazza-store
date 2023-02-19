@@ -42,7 +42,7 @@ const Product = ({ product }: ProductPageType) => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            <Gallery images={product.images} />
+            <Gallery images={product.images}  videos={product.videos}/>
             <Content product={product} />
           </div>
 

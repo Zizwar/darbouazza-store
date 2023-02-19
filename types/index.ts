@@ -19,10 +19,12 @@ export type ReviewType = {
 export type ProductType = {
   id: string;
   name: string;
+  description:string;
   thumb: string;
   price: string;
   count: number;
   color: string;
+  videos:string[];
   size: string;
   images: string[];
   discount?: string;
@@ -36,6 +38,7 @@ export type ProductTypeList = {
   name: string;
   price: string;
   color: string;
+  videos:string[];
   images: string[];
   discount?: string;
   currentPrice?: number;
