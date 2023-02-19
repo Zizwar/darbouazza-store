@@ -3,16 +3,19 @@ import useBlogger from "../../wino/";
 // fake data
 
 
-export default async(_req: NextApiRequest, res: NextApiResponse) => {
-//  console.log(req);
-/*
+export default (_req: NextApiRequest, res: NextApiResponse) => {
+ // console.log(req);
+
   const cb = (data: any) => {
     res.json(data);
+     //console.log('video=',data)
   };
-  */
- const data:any = await useBlogger([]);
+  useBlogger(cb);
+
+   /*
+  const data:any = await useBlogger([]);
   console.log("==");
-  console.info(data)
+ 
   res.json(data);
-  
+  */
 }
