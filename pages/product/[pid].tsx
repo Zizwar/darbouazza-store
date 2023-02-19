@@ -23,12 +23,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const res = await fetch(`${server}/api/product/${pid}`);
   const product = await res.json();
   //console.log({product});
-
   return {
     props: {
       product,
     },
   };
+
 };
 
 const Product = ({ product }: ProductPageType) => {
