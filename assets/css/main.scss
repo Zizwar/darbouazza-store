@@ -1878,7 +1878,9 @@ h1,h2,h3,h4,h5 {
     }
   }
 }
-
+.product-gallery__thumbs {
+  display: block!important;
+}
 .product-gallery {
   display: flex;
   margin-bottom: 40px;
@@ -1886,7 +1888,7 @@ h1,h2,h3,h4,h5 {
     margin-bottom: 0;
   }
   .product-gallery__thumbs {
-    display: none;
+    display: block;
     @include breakpoint(phone) {
       width: 97px;
       display: block;
