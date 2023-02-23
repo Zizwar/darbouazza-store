@@ -7,8 +7,9 @@ export default async(req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { pid },
   } = req
-  const data =  await useBlogger({postId:pid});
-  res.json(data);
+  const usb = new useBlogger({}); 
+  const data = await usb.get({postId:pid});
+   res.json(data);
   /*
   const cb = (data: any) => {
     console.info({data})

@@ -5,9 +5,9 @@ import useBlogger from "../../wino/";
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
  // console.log(req);
- const data = await useBlogger();
-  res.json(data);
-
+ const usb = new useBlogger({}); 
+ const data = await usb.get({});
+ res.json(data);
    /*
   const data:any = await useBlogger([]);
   console.log("==");
