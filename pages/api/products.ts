@@ -17,7 +17,6 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
 
   //
   const usb = new useBlogger();
-
   const data = await usb.load(variables);
   res.json(data);
   /*

@@ -6,10 +6,22 @@ import useBlogger from "../../../wino/";
 export default async(req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { pid },
-  } = req
-  const usb = new useBlogger({}); 
-  const data = await usb.get({postId:pid});
-   res.json(data);
+  }:any = req
+  const variables: any = {
+    price: "number",
+    discount: "number",
+    quantityAvailable: "number",
+    currentPrice: "number",
+    sizes: "array",
+    colors: "array",
+  };
+  //
+
+  //
+  const usb = new useBlogger();
+  usb.post(pid)
+  const data = await usb.load(variables);
+  res.json(data);
   /*
   const cb = (data: any) => {
     console.info({data})
