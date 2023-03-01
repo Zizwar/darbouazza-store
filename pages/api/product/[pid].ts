@@ -1,12 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import useBlogger from "../../../wino/core.js";
+import type { NextApiRequest, NextApiResponse } from "next";
+
+import useBlogger from "wino-blogger";
+
 // fake data
 //import products from '../../../utils/data/products';
 
-export default async(req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { pid },
-  }:any = req
+  }: any = req;
   const variables: any = {
     price: "number",
     discount: "number",
@@ -19,7 +21,7 @@ export default async(req: NextApiRequest, res: NextApiResponse) => {
 
   //
   const usb = new useBlogger();
-  usb.post(pid)
+  usb.post(pid);
   const data = await usb.load(variables);
   res.json(data);
   /*
@@ -31,4 +33,4 @@ export default async(req: NextApiRequest, res: NextApiResponse) => {
   //const product = products.find(x => x.id === pid);
   //res.status(200).json(product);
   */
-}
+};

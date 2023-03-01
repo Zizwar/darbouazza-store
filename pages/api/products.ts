@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import useBlogger from "../../wino/core.js";
+import useBlogger from "wino-blogger";
 // fake data
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
