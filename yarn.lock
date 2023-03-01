@@ -1408,6 +1408,11 @@ web-streams-polyfill@^3.0.3:
   resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz#71c2718c52b45fd49dbeee88634b3a60ceab42a6"
   integrity sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==
 
+wino-blogger@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/wino-blogger/-/wino-blogger-0.7.1.tgz#ccf0259ed5d366e8c18ded10e81147741ac374ac"
+  integrity sha512-QZku1iOEGNL91Xp15MhtS6jqBqkU+aQSLm8krNyAF3jLnAR5SVSmDZbXs7uDHrZf7la/2/luBC+X7EkeNDy2qg==
+
 xtend@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
