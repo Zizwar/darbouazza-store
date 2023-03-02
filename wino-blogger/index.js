@@ -32,8 +32,8 @@ export default class WinoBlogger {
   postId = "";
   query = "";
   variables = [];
-  constructor(props = []) {
-    const { blogId = "", isBrowser, saveTmp, blogUrl = "" } = props;
+  constructor(props) {
+    const { blogId = "", isBrowser, saveTmp, blogUrl = "" } = props || [];
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.saveTmp = saveTmp;

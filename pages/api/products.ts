@@ -15,7 +15,7 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
     { key: "colors", type: "array" },
   ];
   //
-  const blogUrl = process?.env?.URL_GOOGLE_BLOG;
+  const blogUrl= process?.env?.URL_GOOGLE_BLOG;
   const blogId = process?.env?.ID_GOOGLE_BLOG;
 
   const wb = new useBlogger({ blogUrl, blogId })
