@@ -1,29 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import useBlogger from "wino-blogger";
-
+//import useBlogger from "wino-blogger";
+import useBlogger from "../../../wino-blogger";
 // fake data
 //import products from '../../../utils/data/products';
-
+ 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { pid },
   }: any = req;
-  const variables: any = {
-    price: "number",
-    discount: "number",
-    quantityAvailable: "number",
-    currentPrice: "number",
-    sizes: "array",
-    colors: "array",
-  };
+  //
+  const variables: any = [
+    { key: "price", type: "number", regex: "price*[:=]*(.*?)[;<]" },
+    { key: "discount", type: "number" },
+    { key: "quantityAvailable", type: "number" },
+    { key: "currentPrice", type: "number" },
+    { key: "sizes", type: "array" },
+    { key: "colors", type: "array" },
+  ];
   //
 
-  //
-  const usb = new useBlogger();
+  const blogUrl = process?.env?.URL_GOOGLE_BLOG;
+  const blogId = process?.env?.ID_GOOGLE_BLOG;
+
+  const usb = new useBlogger({ blogUrl, blogId });
   usb.post(pid);
   const data = await usb.load(variables);
-  res.json(data);
+  //console.info({data})
+  res.json(data?.data);
   /*
   const cb = (data: any) => {
     console.info({data})
