@@ -1,4 +1,4 @@
-export const regexs = {
+export const matcher = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",
   tuple: "((.*?))",
@@ -11,7 +11,7 @@ export const regexs = {
 export default class WinoBlogger {
   blogUrl: string; // if blogUrl not req blogId
   blogId: string; //if blogId not req blogeUrl
-  saveTmp: any;
+  save: any;
   isBrowser: boolean;
   data: any;
   category: string = "";
@@ -22,13 +22,13 @@ export default class WinoBlogger {
   constructor(props: {
     blogId?: string;
     isBrowser: boolean;
-    saveTmp: any;
+    save: any;
     blogUrl?: string;
   }) {
-    const { blogId = "", isBrowser, saveTmp, blogUrl = "" } = props || [];
+    const { blogId = "", isBrowser, save, blogUrl = "" } = props || [];
     this.blogId = blogId;
     this.isBrowser = isBrowser;
-    this.saveTmp = saveTmp;
+    this.save = save;
     this.blogUrl = blogUrl;
   }
 
@@ -58,7 +58,7 @@ export default class WinoBlogger {
     return this;
   }
 
-  skip(n: number): WinoBlogger {
+  skip(n: number=1): WinoBlogger {
     if (n) this.query += `start-index=${n}&`;
     return this;
   }
@@ -197,11 +197,11 @@ function getPost(
 ) {
   _content = _content.replace(/&nbsp;/gi, "");
 
-  const _videos = new RegExp(regexs.video, "g").exec(_content) || [];
+  const _videos = new RegExp(matcher.video, "g").exec(_content) || [];
   const videos: string = _videos[2] || "";
 
   const images: string[] =
-    regexIno(_content, new RegExp(regexs.src, "g"))?.map((img = "") => img) ||
+    regexIno(_content, new RegExp(matcher.src, "g"))?.map((img = "") => img) ||
     [];
 
   function getVar({ key, type = "string", regex }: Variable) {
@@ -242,8 +242,7 @@ function getPost(
     category: categories[0],
     updated,
     ...vars,
-    content: "",
-    contentHTML: "",
+ 
   };
   if (categories?.includes("$")) return { $: data };
   return { data };
@@ -262,7 +261,7 @@ function getPosts(dataPosts: any, variables: any) {
 
 function regexIno(
   content: string,
-  pattern: RegExp = new RegExp(regexs.dictionary, "g")
+  pattern: RegExp = new RegExp(matcher.dictionary, "g")
 ): string[] {
   let match;
   const matchArr = [];
