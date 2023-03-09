@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 //import useBlogger from "wino-blogger";
-import useBlogger from "../../../wino-blogger";
+import useBlogger from "../../../wino-blogger/";
 // fake data
 //import products from '../../../utils/data/products';
  

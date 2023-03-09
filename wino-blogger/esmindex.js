@@ -153,7 +153,7 @@ function getPost(
   const images =
     regexIno(_content, new RegExp(regexs.src, "g"))?.map((img = "") => img) ||
     [];
-  const content = _content.replace(/(<([^>]+)>)/gi, "");
+  //const content = _content.replace(/(<([^>]+)>)/gi, "");
   function getVar({ key, type = "string", regex }) {
     let _res =
       regexIno(_content, new RegExp(regex || `${key}*[:=]*(.*?)[;<]`, "g")) ||
@@ -194,10 +194,11 @@ function getPost(
   if (categories?.includes("$")) return { $: data };
   return { data };
 }
-function getPosts(dataPosts = [], variables) {
-  const posts = [];
-  const fnk = [];
-  dataPosts.feed?.entry?.forEach((entry) => {
+
+function getPosts(dataPosts: any[] = [], variables: any) {
+  const posts: any[] = [];
+  const fnk: any[] = [];
+  dataPosts.feed?.entry?.forEach((entry: any) => {
     const post = getPost(entry, variables);
     if (post.$) fnk.push(post.$);
     else posts.push(post.data);
