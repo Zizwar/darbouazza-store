@@ -1,4 +1,5 @@
-export const regexs = {
+
+const matcher = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",
   tuple: "((.*?))",
@@ -7,7 +8,8 @@ export const regexs = {
   video: "<iframe*(.*?) src='*(.*?)' ",
   custom: (_r) => _r,
 };
-function regexIno(content, pattern = new RegExp(regexs.dictionary, "g")) {
+
+function regexIno(content, pattern = new RegExp(matcher.dictionary, "g")) {
   let match;
   const matchArr = [];
   while ((match = pattern.exec(content))) {
@@ -16,52 +18,56 @@ function regexIno(content, pattern = new RegExp(regexs.dictionary, "g")) {
   }
   return matchArr;
 }
-//
-
 //get all post each categories
-export const urlJsonSearchPostsCategories = ({
+function urlJsonSearchPostsCategories({
   category = "",
   postId = "",
   query = "",
-  blogUrl = process?.env?.URL_GOOGLE_BLOG,
-  blogId = process?.env?.ID_GOOGLE_BLOG,
-}) =>
-  `${
-    blogUrl || "https://www.blogger.com/" + blogId
-  }/feeds/posts/default/${postId}${
-    category ? `-/${category}` : ""
-  }?alt=json&${query}`;
-
-//fet lllop
-
-///
+  blogUrl,
+  blogId,
+}) {
+  return `${blogUrl ? `${blogUrl}/feeds` : `https://www.blogger.com/feeds/${blogId}`
+    }/posts/default/${postId}${category ? `-/${category}` : ""
+    }?alt=json&${query}`;
+}
+//fet llop
 export default class UseBlogger {
-  blogUrl; // if blogUrl not req blogId
-  blogId; //if blogId not req blogeUrl
-  saveTmp;
-  isBrowser;
-  data;
+  blogUrl = ""; // if blogUrl not req blogId
+  blogId = "" //if blogId not req blogeUrl
+  save;
+  isBrowser = false;
+  data = [];
   category = "";
-
   postId = "";
   query = "";
   variables = [];
+  unselcted = [];
+  selcted = [];
+  uncategory = [];
+  _callback =  [];
+
   constructor(props = []) {
-    const { blogId, isBrowser, saveTmp, blogUrl } = props;
+    const { blogId, isBrowser, save, blogUrl } = props;
     this.blogId = blogId;
     this.isBrowser = isBrowser;
-    this.saveTmp = saveTmp;
+    this.save = save;
     this.blogUrl = blogUrl;
-
-    //console.log("start qgb");
   }
 
-  categories(cats = []) {
-    this.category = cats?.join("/") || "";
+  categories(_categories = []) {
+    this.category = _categories?.join("/") || "";
     return this;
   }
-  labels(cats = []) {
-    this.category = cats?.join("/") || "";
+  uncategories(_categories = []) {
+    this.uncategory = _categories;
+    return this;
+  }
+  labels(_categories = []) {
+    this.categories(_categories)
+    return this;
+  }
+  unlabels(_categories = []) {
+    this.uncategories(_categories)
     return this;
   }
   post(postId = "") {
@@ -72,14 +78,20 @@ export default class UseBlogger {
   search(text = "") {
     this.query += `q=${text}&`;
     return this;
-    //https://www.blogger.com/feeds/BlogId/posts/default?q=searchText&alt=rss
   }
-  limit(n = 1) {
+  limit(n = 3) {
     this.query += `max-results=${n}&`;
     return this;
   }
-  skip(n) {
-    if (n) this.query += `start-index=${n}&`;
+  select(_select = []) {
+    this.selcted = _select;
+  }
+
+  unselect(_select = []) {
+    this.unselcted = _select;
+  }
+  skip(n = 1) {
+    this.query += `start-index=${n}&`;
     return this;
   }
   orderby(value = "published") {
@@ -89,7 +101,7 @@ export default class UseBlogger {
   }
   //
   callback(cb) {
-    this.callback = cb;
+    this._callback = cb;
     return this;
   }
   setData(data) {
@@ -113,24 +125,31 @@ export default class UseBlogger {
   async load(variables) {
     try {
       const { category, postId, query, blogUrl, blogId } = this;
-      if (!this.data) {
-        const response = await fetch(
-          urlJsonSearchPostsCategories({
-            category,
-            postId,
-            query,
-            blogUrl,
-            blogId,
-          })
-        );
+      if (!this.data?.length) {
+        const url = urlJsonSearchPostsCategories({
+          category,
+          postId,
+          query,
+          blogUrl,
+          blogId,
+        })
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        if (this.save) this.save(data)
         this.data = await response.json();
       }
-      return this.postId
+
+      const resault = this.postId
         ? getPost(this.data?.entry, variables)
         : getPosts(this.data, variables);
+        if (typeof this._callback === 'function') {
+          this._callback(resault);
+        }
+        
+        
+      return resault
     } catch (error) {
       console.error("There was a problem with the fetch request:", error);
     }
@@ -139,17 +158,6 @@ export default class UseBlogger {
   async exec(variables) {
     return await this.load(variables);
   }
-  /* 
-  await fetch(urlJsonSearchPostsCategories(opt))
-    .then((response) => response.json())
-    .then((data) => {
-      // console.log("opt=", urlJsonSearchPostsCategories(opt), "data===", data);
-      //write file in tmp system
-      if (opt.postId) cb(getPost(data.entry));
-      else cb(getPosts(data));
-    });
-}
-*/
 }
 function getPost(
   {
@@ -166,44 +174,47 @@ function getPost(
 ) {
   _content = _content.replace(/&nbsp;/gi, "");
   //get videos array
-  const _videos = new RegExp(regexs.video, "g").exec(_content) || [];
-
+  const _videos = new RegExp(matcher.video, "g").exec(_content) || [];
   const videos = _videos[2] || "";
-
   //get image
   const images =
-    regexIno(_content, new RegExp(regexs.src, "g"))?.map((img = "") => img) ||
+    regexIno(_content, new RegExp(matcher.src, "g"))?.map((img = "") => img) ||
     [];
-
   const content = _content.replace(/(<([^>]+)>)/gi, "");
-
-  function getVar(variable, value = "string") {
+  function getVar({ key, type = "string", regex }) {
     let _res =
-      regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`, "g")) || [];
-    console.log({ _res });
+      regexIno(_content, new RegExp(regex || `${key}*[:=]*(.*?)[;<]`, "g")) ||
+      [];
 
-    if (value === "full") return _res;
+    if (type === "full") return _res;
     let res = _res[0];
-    if (value === "number")
+    if (type === "number")
       return res?.match(/\d+(\.\d+)?/g)?.map((_r) => +_r)[0] || 0;
-    if (value === "array") return res?.split(",")?.filter((_r) => _r !== "");
-
+    if (type === "array") return res?.split(",")?.filter((_r) => _r !== "");
     return res;
   }
-  //console.log({ variables });
-  const vars = [];
-  variables &&
-    Object.entries(variables).forEach(([key, value]) => {
-      vars[key] = getVar(key, value);
-      //  console.log(`${key}: ${value}`);
-    });
 
+  const vars = [];
+
+  variables?.forEach(({ key, type, regex, asArray, as }) => {
+    const _var = getVar({ key, type, regex });
+    const asOrKey = as || key;
+    if (_var) {
+      if (asArray) {
+        vars[asArray] = {
+          ...(vars[asArray] || {}),
+          [asOrKey]: _var,
+        };
+      } else {
+        vars[asOrKey] = _var;
+      }
+    }
+  });
   ///
   const categories = category?.map((cat) => cat.term) || [];
   const thumbnail = media$thumbnail?.url;
   const id = _id.split("post-")[1];
-
-  return {
+  const data = {
     id,
     name,
     thumbnail,
@@ -211,26 +222,57 @@ function getPost(
     videos,
     link,
     images,
-    content,
-    contentHTML: _content,
+    text: content,
+    html: _content,
     categories,
     category: categories[0],
     updated,
     ...vars,
   };
+  if (categories?.includes("$")) return { $: data };
+  return { data };
 }
-
 function getPosts(dataPosts = [], variables) {
   const posts = [];
+  const fnk = [];
   dataPosts.feed?.entry?.forEach((entry) => {
     const post = getPost(entry, variables);
-    if (post) {
-      posts.push(post);
-    }
+    if (post.$) fnk.push(post.$);
+    else posts.push(post.data);
   });
-  return posts;
+  return { data: posts, $: fnk };
 }
+
 /*
-function getPosts(dataPosts = [], variables) {
- return dataPosts.feed?.entry?.map((entry) => getPost(entry, variables));
-}*/
+const unselected = [
+  "id",
+  "name",
+  "thumbnail",
+  "published",
+  "videos"
+];
+
+const newData = Object.keys(data).reduce((acc, key) => {
+  if (!unselected.includes(key)) {
+    acc[key] = data[key];
+  }
+  return acc;
+}, {});
+
+console.log(newData);
+____
+const selected = [
+  "id",
+  "name",
+  "thumbnail",
+  "published",
+  "videos"
+];
+
+const { ...selectedData } = data;
+selected.forEach(key => delete selectedData[key]);
+
+console.log(selectedData);
+
+
+*/
