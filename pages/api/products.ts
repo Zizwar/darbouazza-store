@@ -19,7 +19,7 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
   const blogId = process?.env?.ID_GOOGLE_BLOG;
 
   const wb = new useBlogger({ blogUrl, blogId })
-  wb.select(["text","id"]);
+  //wb.select(["text","id"]);
   const data =  await wb.load(variables);
  console.log(data);
   res.json(data?.data);
