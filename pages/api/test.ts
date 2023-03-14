@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // fake data
-import UseBlogger from "../../23wino-blogger/esmindex";
+import UseBlogger from "../../wino-blogger/esmindex";
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
  const usb = new UseBlogger({}); 

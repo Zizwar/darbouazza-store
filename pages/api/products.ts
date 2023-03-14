@@ -1,12 +1,12 @@
-//import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import useBlogger from "use-blogger";
 // fake data
-//import useBlogger from "../../23wino-blogger";
+//import useBlogger from "../../wino-blogger/core";
 
-export default async (_req, res) => {
+export default async (_req: NextApiRequest, res: NextApiResponse) => {
   // console.log(req);
 
-  const variables= [
+  const variables: any = [
     { key: "price", type: "number", regex: "price*[:=]*(.*?)[;<]" },
     { key: "discount", type: "number" },
     { key: "quantityAvailable", type: "number" },
@@ -15,13 +15,13 @@ export default async (_req, res) => {
     { key: "colors", type: "array" },
   ];
   //
-  const blogUrl= process?.env?.URL_GOOGLE_BLOG;
-  const blogId = process?.env?.ID_GOOGLE_BLOG ;
+  const blogUrl:string= process?.env?.URL_GOOGLE_BLOG;
+  const blogId = process?.env?.ID_GOOGLE_BLOG;
 
-  const wb = new useBlogger({ blogId,blogUrl });
-  await wb.exec();
-  const data = await wb.setData(wb.data).load(variables);
-  console.log(data);
+  const wb = new useBlogger({ blogUrl, blogId })
+ await wb.exec();
+  const data =  await wb.setData(wb.data).load(variables);
+ console.log(data);
   res.json(data?.data);
   /*
   const data:any = await useBlogger([]);

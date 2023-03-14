@@ -44,10 +44,10 @@ export default class UseBlogger {
   unselcted = [];
   selcted = [];
   uncategory = [];
-  _callback =  [];
+  _callback;
 
-  constructor(props = []) {
-    const { blogId, isBrowser, save, blogUrl } = props;
+  constructor(props = {}) {
+    const { blogId, isBrowser, save, blogUrl="" } = props 
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.save = save;

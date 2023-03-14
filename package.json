@@ -40,7 +40,7 @@
     "sass": "^1.26.10",
     "swiper": "^6.5.1",
     "swr": "^0.3.2",
-    "use-blogger": "^0.9.2",
+    "use-blogger": "^0.9.3",
     "use-onclickoutside": "^0.3.1"
   },
   "devDependencies": {
