@@ -1,4 +1,3 @@
-
 const matcher = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",
@@ -26,14 +25,16 @@ function urlJsonSearchPostsCategories({
   blogUrl,
   blogId,
 }) {
-  return `${blogUrl ? `${blogUrl}/feeds` : `https://www.blogger.com/feeds/${blogId}`
-    }/posts/default/${postId}${category ? `-/${category}` : ""
-    }?alt=json&${query}`;
+  return `${
+    blogUrl ? `${blogUrl}/feeds` : `https://www.blogger.com/feeds/${blogId}`
+  }/posts/default/${postId}${
+    category ? `-/${category}` : ""
+  }?alt=json&${query}`;
 }
 //fet llop
 export default class UseBlogger {
   blogUrl = ""; // if blogUrl not req blogId
-  blogId = "" //if blogId not req blogeUrl
+  blogId = ""; //if blogId not req blogeUrl
   save;
   isBrowser = false;
   data = [];
@@ -41,13 +42,13 @@ export default class UseBlogger {
   postId = "";
   query = "";
   variables = [];
-  unselcted = [];
-  selcted = [];
+  unselect = [];
+  selected = [];
   uncategory = [];
   _callback;
 
   constructor(props = {}) {
-    const { blogId, isBrowser, save, blogUrl="" } = props 
+    const { blogId, isBrowser, save, blogUrl = "" } = props;
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.save = save;
@@ -63,11 +64,11 @@ export default class UseBlogger {
     return this;
   }
   labels(_categories = []) {
-    this.categories(_categories)
+    this.categories(_categories);
     return this;
   }
   unlabels(_categories = []) {
-    this.uncategories(_categories)
+    this.uncategories(_categories);
     return this;
   }
   post(postId = "") {
@@ -84,11 +85,11 @@ export default class UseBlogger {
     return this;
   }
   select(_select = []) {
-    this.selcted = _select;
+    this.selected = _select;
   }
 
   unselect(_select = []) {
-    this.unselcted = _select;
+    this.unselected = _select;
   }
   skip(n = 1) {
     this.query += `start-index=${n}&`;
@@ -132,24 +133,37 @@ export default class UseBlogger {
           query,
           blogUrl,
           blogId,
-        })
+        });
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        if (this.save) this.save(data)
+        if (this.save) this.save(data);
         this.data = await response.json();
       }
 
       const resault = this.postId
         ? getPost(this.data?.entry, variables)
         : getPosts(this.data, variables);
-        if (typeof this._callback === 'function') {
-          this._callback(resault);
-        }
-        
-        
-      return resault
+      if (typeof this._callback === "function") {
+        this._callback(resault);
+      }
+
+      if (this.selected) {
+        resault.data = resault?.data
+          .filter((obj) =>
+            this.selected.every((prop) => obj.hasOwnProperty(prop))
+          )
+          .map(
+            (obj) =>
+              this.selected.reduce((acc, prop) => {
+                acc[prop] = obj[prop];
+                return acc;
+              }, {}) || []
+          );
+      }
+
+      return resault;
     } catch (error) {
       console.error("There was a problem with the fetch request:", error);
     }

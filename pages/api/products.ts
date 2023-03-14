@@ -15,12 +15,12 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
     { key: "colors", type: "array" },
   ];
   //
-  const blogUrl:string= process?.env?.URL_GOOGLE_BLOG;
+  const blogUrl= process?.env?.URL_GOOGLE_BLOG;
   const blogId = process?.env?.ID_GOOGLE_BLOG;
 
   const wb = new useBlogger({ blogUrl, blogId })
- await wb.exec();
-  const data =  await wb.setData(wb.data).load(variables);
+  wb.select(["text","id"]);
+  const data =  await wb.load(variables);
  console.log(data);
   res.json(data?.data);
   /*
