@@ -3,7 +3,7 @@ type GalleryProductType = {
   videos?: string; //[];
 };
 
-const Gallery = ({ images=[], videos }: GalleryProductType) => {
+const Gallery = ({ images, videos }: GalleryProductType) => {
   const fetchImage = images //? images[0] : "";
   // const fetchvideo = videos ? videos[0] : "";
 
