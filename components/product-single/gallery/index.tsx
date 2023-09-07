@@ -4,7 +4,7 @@ type GalleryProductType = {
 };
 
 const Gallery = ({ images, videos }: GalleryProductType) => {
-  const fetchImage = images //? images[0] : "";
+  const fetchImage = images ? images[0] : "";
   // const fetchvideo = videos ? videos[0] : "";
 
   return (
